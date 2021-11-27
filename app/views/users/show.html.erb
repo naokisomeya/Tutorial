@@ -1,0 +1,11 @@
+<% provide(:title, @user.name ) %> <!-- @user.nameを:titleに格納-->
+<div class="row">
+    <aside class="col-md-4">
+        <section class="user_info">
+            <h1>
+                <%= gravatar_for @user %>      <!-- gravatar_forというヘルパーメソッドでユーザー(user)の画像を表示、@userで表示しているビューのユーザー情報を表示 -->
+                <%= @user.name %>              <!-- 表示しているビューのユーザーの名前(nmae)を表示-->
+            </h1>
+        </section>
+    </aside>
+</div>
