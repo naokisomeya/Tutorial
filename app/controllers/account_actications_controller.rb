@@ -1,0 +1,2 @@
+class AccountActicationsController < ApplicationController
+end

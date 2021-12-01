@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   attr_accessor :remember_token
-  before_save { self.email = email.downcase }
+  before_save :downcase_email
   validates :name,  presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 255 },
@@ -8,6 +8,7 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  before_create :create_activation_digest
 
   # 渡された文字列のハッシュ値を返す
   def User.digest(string)
@@ -37,4 +38,17 @@ class User < ApplicationRecord
   def forget
     update_attribute(:remember_digest, nil)
   end
+  
+  private
+  
+  def downcase_email
+    self.email = email.downcase
+  end
+  
+  def create_activation_digest
+    self.activation_token = User.new_token
+    self.activation_digest = User.digest(activation)
+  end
+  
+  
 end
